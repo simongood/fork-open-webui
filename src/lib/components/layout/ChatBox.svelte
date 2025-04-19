@@ -38,26 +38,39 @@
 </script>
 
 
+
+<!-- 聊天室窗構建 -->
 <div 
     class={`w-full h-32 flex justify-center items-center transition-all duration-300 
         absolute left-1/2 -translate-x-1/2 ${hasMessages ? 'bottom-8' : 'top-1/2 -translate-y-1/2'}`
         }
 >
-	<div class="w-[55vw]  h-full bg-white shadow-lg rounded-2xl flex flex-col border border-gray-200 px-3 py-3">
+	<div class="w-[55vw]  h-full bg-white shadow-lg rounded-[2.5rem] flex flex-col border border-gray-200 px-6 py-3">
         <div 
             bind:this={ChatTextInput}
             contenteditable="true"
             on:keydown={handleEnterToSend}
             role="textbox"
             tabindex="0"
-            class="w-full h-full pr-3
-                overflow-y-auto overflow-x-hidden break-all flex items-center focus:outline-none"
+            class="w-full h-full pr-3 py-4 text-lg
+                overflow-y-auto overflow-x-hidden break-all flex items-center focus:outline-none
+                peer empty:before:content-[attr(data-placeholder)] before:text-gray-400 before:absolute before:pointer-events-none"
+            data-placeholder="在這裡輸入文字..."
         >
-            在這裡輸入文字...
         </div>
         <div class="w-full h-full ">
         
 
         </div>
 	</div>
+</div>
+
+
+
+<!-- 我可以為你做什麼? -->
+<div class={`
+  flex justify-center items-center pointer-events-none
+  absolute left-1/2 -translate-x-1/2 ${hasMessages ? 'opacity-0' : 'top-[33vh] opacity-100'}`
+}>
+    <h2 class="text-4xl font-extrabold">我可以為你做什麼...?</h2>
 </div>
