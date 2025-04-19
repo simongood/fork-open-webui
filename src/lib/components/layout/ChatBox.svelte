@@ -1,28 +1,40 @@
 <script lang="ts">
-    import { chatMessages } from '$lib/stores/chatMessages';
+    import { sendMessageToYcmWebChatbot } from '$lib/api/sendMessageToYcmWebChatbot';   // 發送訊息至 ycm 網頁機器人
+
+    import { chatMessages } from '$lib/stores/chatMessages';    // 聊天室歷史訊息紀錄
     import type { ChatMessage } from '$lib/stores/chatMessages';
 
     let ChatTextInput: HTMLDivElement;
-    let hasMessages = false;
+    let hasMessages = false;        // 有訊息時窗口會向下移
+    let isWaitingForReply = false;  // 等待 system 訊息狀態用戶不可持續傳送訊息
   
-    function handleEnterToSend(event: KeyboardEvent) {
-        const content = ChatTextInput.innerText.trim();
+    async function handleEnterToSend(event: KeyboardEvent) {
+        const userInput = ChatTextInput.innerText.trim();
         
-        if (event.key === 'Enter' && content !== '') {
+        if (event.key === 'Enter' && userInput !== '' && isWaitingForReply == false) {
             event.preventDefault(); 
+            isWaitingForReply = true;  // 設為等待中
 
+            // 用戶訊息
             const newmessage: ChatMessage = {
                 role: 'user',
-                content,
+                content: userInput,
             };
 
             chatMessages.update(messages => [...messages, newmessage])  // 加入訊息
             ChatTextInput.innerHTML = '';              // 清空輸入框
             hasMessages = true;
+
+            // 系統訊息
+            const reply = await sendMessageToYcmWebChatbot(userInput, "ycm_mold_relevant_chatbot");
+            const systemMessage: ChatMessage = {
+                role: 'system',
+                content: reply,
+            };
+            chatMessages.update(messages => [...messages, systemMessage]);
+            isWaitingForReply = false;  // 回復可再次輸入
         }
     }
-
-    
 </script>
 
 
