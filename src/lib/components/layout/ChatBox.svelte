@@ -43,7 +43,7 @@
         absolute left-1/2 -translate-x-1/2 ${hasMessages ? 'bottom-8' : 'top-1/2 -translate-y-1/2'}`
         }
 >
-	<div class="w-full max-w-3xl h-full bg-white shadow-lg rounded-2xl flex flex-col border border-gray-200 px-3 py-3">
+	<div class="w-[55vw]  h-full bg-white shadow-lg rounded-2xl flex flex-col border border-gray-200 px-3 py-3">
         <div 
             bind:this={ChatTextInput}
             contenteditable="true"
