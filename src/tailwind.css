@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @config '../tailwind.config.js';
+/* config 是 Tailwind 自訂的 CSS at-rule 所以對於一般 CSS 插件來說，這行是「未知語法」，就會報 unknownAtRules， 可以忽略*/
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
