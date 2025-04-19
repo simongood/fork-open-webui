@@ -1,22 +1,25 @@
 <script lang="ts">
     import { chatMessages } from '$lib/stores/chatMessages';
-    import { get } from 'svelte/store';
+    import type { ChatMessage } from '$lib/stores/chatMessages';
 
     let ChatTextInput: HTMLDivElement;
     let hasMessages = false;
   
-    function handleKeydown(event: KeyboardEvent) {
-      if (event.key === 'Enter') {
-        event.preventDefault(); 
-        const message = ChatTextInput.innerText.trim();
-  
-        if (message !== '') {
-            chatMessages.update(messages => [...messages, message])  // 加入訊息
+    function handleEnterToSend(event: KeyboardEvent) {
+        const content = ChatTextInput.innerText.trim();
+        
+        if (event.key === 'Enter' && content !== '') {
+            event.preventDefault(); 
+
+            const newmessage: ChatMessage = {
+                role: 'user',
+                content,
+            };
+
+            chatMessages.update(messages => [...messages, newmessage])  // 加入訊息
             ChatTextInput.innerHTML = '';              // 清空輸入框
             hasMessages = true;
         }
-      }
-    console.log('目前訊息內容：', get(chatMessages));
     }
 
     
@@ -32,7 +35,7 @@
         <div 
             bind:this={ChatTextInput}
             contenteditable="true"
-            on:keydown={handleKeydown}
+            on:keydown={handleEnterToSend}
             role="textbox"
             tabindex="0"
             class="w-full h-full pr-3
