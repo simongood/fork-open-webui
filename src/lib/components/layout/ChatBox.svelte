@@ -1,24 +1,48 @@
-<!-- src/lib/components/layout/ChatBoxLayout.svelte -->
 <script lang="ts">
-	export let title: string = "Chat";
+    import { chatMessages } from '$lib/stores/chatMessages';
+    import { get } from 'svelte/store';
+
+    let ChatTextInput: HTMLDivElement;
+    let hasMessages = false;
+  
+    function handleKeydown(event: KeyboardEvent) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); 
+        const message = ChatTextInput.innerText.trim();
+  
+        if (message !== '') {
+            chatMessages.update(messages => [...messages, message])  // 加入訊息
+            ChatTextInput.innerHTML = '';              // 清空輸入框
+            hasMessages = true;
+        }
+      }
+    console.log('目前訊息內容：', get(chatMessages));
+    }
+
+    
 </script>
 
-<div class="w-full h-full flex justify-center items-center px-4 py-6">
-	<div class="w-full max-w-3xl h-full bg-white dark:bg-gray-800 shadow-lg rounded-2xl flex flex-col overflow-hidden">
-		<!-- 標題列 -->
-		<div class="p-4 border-b border-gray-300 dark:border-gray-700 text-lg font-semibold bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
-			{title}
-		</div>
 
-		<!-- 主內容 -->
-		<div class="flex-1 overflow-y-auto p-4 space-y-3 text-sm text-gray-800 dark:text-gray-100">
-			<slot />
-		</div>
+<div 
+    class={`w-full h-32 flex justify-center items-center transition-all duration-300 
+        absolute left-1/2 -translate-x-1/2 ${hasMessages ? 'bottom-8' : 'top-1/2 -translate-y-1/2'}`
+        }
+>
+	<div class="w-full max-w-3xl h-full bg-white shadow-lg rounded-2xl flex flex-col border border-gray-200 px-3 py-3">
+        <div 
+            bind:this={ChatTextInput}
+            contenteditable="true"
+            on:keydown={handleKeydown}
+            role="textbox"
+            tabindex="0"
+            class="w-full h-full pr-3
+                overflow-y-auto overflow-x-hidden break-all flex items-center focus:outline-none"
+        >
+            在這裡輸入文字...
+        </div>
+        <div class="w-full h-full ">
+        
 
-		<!-- 底部預留空間（未來可放輸入框） -->
-		<div class="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-			<!-- 你之後可以把這裡換成聊天輸入框 -->
-			<p class="text-gray-500 dark:text-gray-400 text-sm">請輸入訊息...</p>
-		</div>
+        </div>
 	</div>
 </div>
