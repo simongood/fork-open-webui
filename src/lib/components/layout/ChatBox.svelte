@@ -1,5 +1,6 @@
 <script lang="ts">
     import { sendMessageToYcmWebChatbot } from '$lib/api/sendMessageToYcmWebChatbot';   // 發送訊息至 ycm 網頁機器人
+    import { sendMessageToEmma } from "$lib/api/sendMessageToEmma";                     // Emma 機器人
 
     import { chatMessages } from '$lib/stores/chatMessages';    // 聊天室歷史訊息紀錄
     import type { ChatMessage } from '$lib/stores/chatMessages';
@@ -26,7 +27,9 @@
             hasMessages = true;
 
             // 系統訊息
-            const reply = await sendMessageToYcmWebChatbot(userInput, "ycm_mold_relevant_chatbot");
+            const reply = await sendMessageToYcmWebChatbot(userInput, "ycm_mold_relevant_chatbot"); // YcmWebChatbot
+            // const reply = await sendMessageToEmma(userInput, 'Webui-Emma'); // Emma 機器人
+
             const systemMessage: ChatMessage = {
                 role: 'system',
                 content: reply,
