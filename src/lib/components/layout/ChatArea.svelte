@@ -14,7 +14,7 @@
 <!-- 聊天室訊息框搭建 -->
 <div
   bind:this={container}
-  class="w-full h-full max-h-[80vh] absolute top-0 left-1/2 -translate-x-1/2 flex flex-col bg-white overflow-y-auto px-[10vw] 
+  class="w-full h-full max-h-[85vh] absolute top-0 left-1/2 -translate-x-1/2 flex flex-col bg-white overflow-y-auto px-[10vw] 
   break-all text-gray-900"
 >
     <div class="min-h-8"></div>    <!-- 上方留白 -->
